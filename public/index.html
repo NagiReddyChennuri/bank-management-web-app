@@ -1,0 +1,252 @@
+!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Bank Management System (INR)</title>
+    <!-- Stylesheet Link -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🏦</span>
+                <h1>Apex Bank System</h1>
+            </div>
+            <div class="nav-status">
+                <span id="status-dot" class="dot pending"></span>
+                <span id="status-text">Connecting...</span>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <!-- Notification Alert -->
+        <div id="alert-box" class="alert hidden"></div>
+        <!-- Analytics KPI Cards Overview -->
+        <section class="analytics-grid">
+            <div class="kpi-card card-blue">
+                <div class="kpi-icon">💰</div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Total Bank Liquidity</span>
+                    <h3 id="kpi-liquidity">₹0.00</h3>
+                </div>
+            </div>
+            <div class="kpi-card card-green">
+                <div class="kpi-icon">👥</div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Active Accounts</span>
+                    <h3 id="kpi-accounts">0</h3>
+                </div>
+            </div>
+            <div class="kpi-card card-purple">
+                <div class="kpi-icon">📈</div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Total Deposits</span>
+                    <h3 id="kpi-deposits">₹0.00</h3>
+                </div>
+            </div>
+            <div class="kpi-card card-orange">
+                <div class="kpi-icon">📉</div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Total Withdrawals</span>
+                    <h3 id="kpi-withdrawals">₹0.00</h3>
+                </div>
+            </div>
+        </section>
+        <div class="grid-layout">
+            <!-- Left Column: Open Account & Transaction Forms -->
+            <div class="forms-column">
+                <!-- 1. Open Account -->
+                <section class="card">
+                    <h2>Open New Account</h2>
+                    <p class="subtitle">Create a customer account with a 4-digit PIN.</p>
+                    <form id="create-account-form">
+                        <div class="form-group">
+                            <label for="holder-name">Full Name *</label>
+                            <input type="text" id="holder-name" placeholder="e.g. Rahul Sharma" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" placeholder="e.g. rahul@example.com" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="initial-deposit">Initial Deposit (₹)</label>
+                                <input type="number" id="initial-deposit" placeholder="5000.00" min="0" step="1"
+                                    value="5000.00">
+                            </div>
+                            <div class="form-group">
+                                <label for="account-pin">4-Digit Security PIN *</label>
+                                <input type="password" id="account-pin" placeholder="••••" maxlength="4" pattern="\d{4}"
+                                    required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                    </form>
+                </section>
+                <!-- 2. Banking Operations -->
+                <section class="card transaction-card">
+                    <h2>Deposit & Withdrawal</h2>
+                    <p class="subtitle">Requires account PIN authorization.</p>
+                    <form id="transaction-form">
+                        <div class="form-group">
+                            <label for="tx-account">Select Account *</label>
+                            <select id="tx-account" required>
+                                <option value="">-- Choose an account --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Transaction Type *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="tx-type" value="deposit" checked> Deposit (+)
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="tx-type" value="withdraw"> Withdraw (-)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tx-amount">Amount (₹) *</label>
+                                <input type="number" id="tx-amount" placeholder="1000.00" min="1" step="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tx-pin">Enter 4-Digit PIN *</label>
+                                <input type="password" id="tx-pin" placeholder="••••" maxlength="4" pattern="\d{4}"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tx-desc">Description / Note</label>
+                            <input type="text" id="tx-desc" placeholder="e.g. Salary, UPI Transfer, Utility">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block" id="tx-submit-btn">Authorize &
+                            Deposit</button>
+                    </form>
+                </section>
+            </div>
+            <!-- Right Column: Active Accounts Directory & Search -->
+            <section class="card table-card">
+                <div class="card-header">
+                    <h2>Accounts Directory</h2>
+                    <button id="refresh-btn" class="btn btn-outline btn-sm">↻ Refresh</button>
+                </div>
+                <p class="subtitle">Search, sort, edit details, or view account statements.</p>
+                <!-- Search and Sort Controls -->
+                <div class="filter-bar">
+                    <input type="text" id="search-input" class="search-box"
+                        placeholder="🔍 Search name, email, or account #...">
+                    <select id="sort-select" class="sort-box">
+                        <option value="newest">Sort: Newest First</option>
+                        <option value="balance-high">Sort: Balance (High to Low)</option>
+                        <option value="balance-low">Sort: Balance (Low to High)</option>
+                        <option value="name">Sort: Name (A-Z)</option>
+                    </select>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Account #</th>
+                                <th>Holder</th>
+                                <th>Balance (₹)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accounts-table-body">
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">Loading accounts...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <!-- 1. Statement / History Modal -->
+        <div id="statement-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title">Account Statement</h3>
+                    <button id="close-modal-btn" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-account-info" class="modal-sub"></p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statement-table-body">
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">Loading transactions...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 2. Edit Account Details & PIN Verification Modal -->
+        <div id="edit-modal" class="modal hidden">
+            <div class="modal-content modal-small">
+                <div class="modal-header">
+                    <h3>Edit Account & PIN</h3>
+                    <button id="close-edit-modal-btn" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-account-form">
+                        <input type="hidden" id="edit-account-number">
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <input type="text" id="edit-account-number-display" disabled class="disabled-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-holder-name">Full Name *</label>
+                            <input type="text" id="edit-holder-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-email">Email Address *</label>
+                            <input type="email" id="edit-email" required>
+                        </div>
+                        <hr style="margin: 1.2rem 0; border: none; border-top: 1px solid #e2e8f0;">
+                        <!-- Mandatory Old PIN verification -->
+                        <div class="form-group">
+                            <label for="edit-current-pin" style="color: #c53030; font-weight: 600;">Current 4-Digit PIN
+                                * (Required to save)</label>
+                            <input type="password" id="edit-current-pin" placeholder="Enter current PIN" maxlength="4"
+                                pattern="\d{4}" required>
+                        </div>
+                        <!-- Optional New PIN change -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-new-pin">New 4-Digit PIN (Optional)</label>
+                                <input type="password" id="edit-new-pin" placeholder="New PIN" maxlength="4">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-confirm-pin">Confirm New PIN</label>
+                                <input type="password" id="edit-confirm-pin" placeholder="Repeat new PIN" maxlength="4">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Verify & Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Apex Bank Management System. Built with Node.js, Express & SQLite.</p>
+        </div>
+    </footer>
+    <!-- JS script -->
+    <script src="js/main.js"></script>
+</body>

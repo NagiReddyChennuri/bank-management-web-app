@@ -1,0 +1,24 @@
+{
+    "name": "bank-management-web-app",
+    "version": "1.0.0",
+    "description": "A beginner-friendly Full-Stack Bank Management Web Application",
+    "main": "src/server.js",
+    "scripts": {
+        "start": "node src/server.js",
+        "dev": "node --watch src/server.js"
+    },
+    "keywords": [
+        "banking",
+        "express",
+        "sqlite",
+        "javascript",
+        "fullstack"
+    ],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.19.2",
+        "sqlite3": "^5.1.7"
+    }
+}
