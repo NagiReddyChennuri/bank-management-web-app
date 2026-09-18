@@ -1,252 +1,445 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Bank Management System (INR)</title>
+    <title>Apex Digital Bank — Modern Online Banking</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Stylesheet Link -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+    <!-- Top Navigation Bar -->
     <header class="navbar">
-        <div class="container">
-            <div class="logo">
-                <span class="logo-icon">🏦</span>
-                <h1>Apex Bank System</h1>
-            </div>
-            <div class="nav-status">
-                <span id="status-dot" class="dot pending"></span>
-                <span id="status-text">Connecting...</span>
+        <div class="nav-container">
+            <a href="#" class="logo" id="nav-logo-btn">
+                <div class="logo-icon-wrap">
+                    <span class="logo-icon">🏛️</span>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">Apex Bank</span>
+                    <span class="logo-subtitle">Digital Banking</span>
+                </div>
+            </a>
+
+            <nav class="nav-links" id="guest-nav">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#security" class="nav-link">Security</a>
+                <a href="#about" class="nav-link">About</a>
+                <button class="btn btn-outline-nav" id="nav-login-btn">Sign In</button>
+                <button class="btn btn-primary-nav" id="nav-register-btn">Open Account</button>
+            </nav>
+
+            <!-- User Menu (Visible when logged in) -->
+            <div class="user-nav hidden" id="user-nav">
+                <div class="user-badge">
+                    <span class="user-avatar" id="user-avatar-initial">U</span>
+                    <div class="user-meta">
+                        <span class="user-name" id="user-nav-name">Customer</span>
+                        <span class="user-acc" id="user-nav-acc">ACC-0000000000</span>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-logout" id="logout-btn">
+                    <span class="icon">🚪</span> Sign Out
+                </button>
             </div>
         </div>
     </header>
-    <main class="container">
-        <!-- Notification Alert -->
-        <div id="alert-box" class="alert hidden"></div>
-        <!-- Analytics KPI Cards Overview -->
-        <section class="analytics-grid">
-            <div class="kpi-card card-blue">
-                <div class="kpi-icon">💰</div>
-                <div class="kpi-info">
-                    <span class="kpi-label">Total Bank Liquidity</span>
-                    <h3 id="kpi-liquidity">₹0.00</h3>
+
+    <!-- Global Toast Alert Box -->
+    <div id="alert-box" class="toast-alert hidden"></div>
+
+    <!-- VIEW 1: LANDING PAGE (Logged Out) -->
+    <div id="landing-view" class="view-section">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-pill">
+                        <span class="pill-dot"></span>
+                        <span>Next-Gen Cloud Banking Platform</span>
+                    </div>
+                    <h1 class="hero-title">
+                        Banking made <span class="gradient-text">effortless</span>, secure & personal.
+                    </h1>
+                    <p class="hero-description">
+                        Manage your finances with confidence. Enjoy instant money transfers, secure PIN-authorized deposits, and real-time passbook statements from any device.
+                    </p>
+                    <div class="hero-cta-group">
+                        <button class="btn btn-hero-primary" id="hero-login-btn">
+                            <span>Access Online Banking</span>
+                            <span class="arrow">→</span>
+                        </button>
+                        <button class="btn btn-hero-secondary" id="hero-open-btn">
+                            <span>Open Free Account</span>
+                        </button>
+                    </div>
+                    <div class="hero-trust">
+                        <div class="trust-item">
+                            <span class="trust-icon">🔒</span>
+                            <span>256-bit Cloud Encryption</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-icon">⚡</span>
+                            <span>Zero Waiting Time</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-icon">📱</span>
+                            <span>Mobile Optimized</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="kpi-card card-green">
-                <div class="kpi-icon">👥</div>
-                <div class="kpi-info">
-                    <span class="kpi-label">Active Accounts</span>
-                    <h3 id="kpi-accounts">0</h3>
-                </div>
-            </div>
-            <div class="kpi-card card-purple">
-                <div class="kpi-icon">📈</div>
-                <div class="kpi-info">
-                    <span class="kpi-label">Total Deposits</span>
-                    <h3 id="kpi-deposits">₹0.00</h3>
-                </div>
-            </div>
-            <div class="kpi-card card-orange">
-                <div class="kpi-icon">📉</div>
-                <div class="kpi-info">
-                    <span class="kpi-label">Total Withdrawals</span>
-                    <h3 id="kpi-withdrawals">₹0.00</h3>
+
+                <!-- Hero Digital Card Graphic -->
+                <div class="hero-visual">
+                    <div class="glass-credit-card">
+                        <div class="card-top">
+                            <span class="card-bank-name">APEX PREMIER</span>
+                            <span class="card-chip">💳</span>
+                        </div>
+                        <div class="card-number-mock">•••• •••• •••• 9858</div>
+                        <div class="card-bottom">
+                            <div class="card-holder-mock">
+                                <small>CARD HOLDER</small>
+                                <span>VERIFIED CUSTOMER</span>
+                            </div>
+                            <div class="card-expires-mock">
+                                <small>EXPIRES</small>
+                                <span>12/30</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Floating Quick Stats -->
+                    <div class="floating-badge badge-1">
+                        <span class="badge-icon">✅</span>
+                        <div class="badge-text">
+                            <strong>Instant Settlement</strong>
+                            <small>Real-time updates</small>
+                        </div>
+                    </div>
+                    <div class="floating-badge badge-2">
+                        <span class="badge-icon">🛡️</span>
+                        <div class="badge-text">
+                            <strong>4-Digit PIN Vault</strong>
+                            <small>Maximum security</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-        <div class="grid-layout">
-            <!-- Left Column: Open Account & Transaction Forms -->
-            <div class="forms-column">
-                <!-- 1. Open Account -->
-                <section class="card">
-                    <h2>Open New Account</h2>
-                    <p class="subtitle">Create a customer account with a 4-digit PIN.</p>
-                    <form id="create-account-form">
-                        <div class="form-group">
-                            <label for="holder-name">Full Name *</label>
-                            <input type="text" id="holder-name" placeholder="e.g. Rahul Sharma" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address *</label>
-                            <input type="email" id="email" placeholder="e.g. rahul@example.com" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="initial-deposit">Initial Deposit (₹)</label>
-                                <input type="number" id="initial-deposit" placeholder="5000.00" min="0" step="1"
-                                    value="5000.00">
-                            </div>
-                            <div class="form-group">
-                                <label for="account-pin">4-Digit Security PIN *</label>
-                                <input type="password" id="account-pin" placeholder="••••" maxlength="4" pattern="\d{4}"
-                                    required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
-                    </form>
-                </section>
-                <!-- 2. Banking Operations -->
-                <section class="card transaction-card">
-                    <h2>Deposit & Withdrawal</h2>
-                    <p class="subtitle">Requires account PIN authorization.</p>
-                    <form id="transaction-form">
-                        <div class="form-group">
-                            <label for="tx-account">Select Account *</label>
-                            <select id="tx-account" required>
-                                <option value="">-- Choose an account --</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Transaction Type *</label>
-                            <div class="radio-group">
-                                <label class="radio-label">
-                                    <input type="radio" name="tx-type" value="deposit" checked> Deposit (+)
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="tx-type" value="withdraw"> Withdraw (-)
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="tx-amount">Amount (₹) *</label>
-                                <input type="number" id="tx-amount" placeholder="1000.00" min="1" step="1" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="tx-pin">Enter 4-Digit PIN *</label>
-                                <input type="password" id="tx-pin" placeholder="••••" maxlength="4" pattern="\d{4}"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="tx-desc">Description / Note</label>
-                            <input type="text" id="tx-desc" placeholder="e.g. Salary, UPI Transfer, Utility">
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block" id="tx-submit-btn">Authorize &
-                            Deposit</button>
-                    </form>
-                </section>
+
+        <!-- Features Section -->
+        <section class="features-section" id="features">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-tag">FEATURES</span>
+                    <h2 class="section-title">Smart tools for modern wealth management</h2>
+                    <p class="section-sub">Experience banking designed around your privacy and speed.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon-box icon-blue">⚡</div>
+                        <h3>Instant Transfers</h3>
+                        <p>Transfer funds between any Apex Bank accounts instantly with zero fees and immediate confirmation.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-box icon-green">🔐</div>
+                        <h3>PIN Security Shield</h3>
+                        <p>Every transaction, withdrawal, and profile modification is strictly guarded by your 4-digit PIN.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-box icon-purple">📊</div>
+                        <h3>Real-Time Passbook</h3>
+                        <p>Track every single rupee deposited, withdrawn, or transferred with detailed passbook statements.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-box icon-amber">☁️</div>
+                        <h3>24/7 Cloud Database</h3>
+                        <p>Backed by MongoDB Atlas cloud architecture. Your data is permanently saved across all devices.</p>
+                    </div>
+                </div>
             </div>
-            <!-- Right Column: Active Accounts Directory & Search -->
-            <section class="card table-card">
-                <div class="card-header">
-                    <h2>Accounts Directory</h2>
-                    <button id="refresh-btn" class="btn btn-outline btn-sm">↻ Refresh</button>
+        </section>
+
+        <!-- Security Section -->
+        <section class="security-section" id="security">
+            <div class="section-container">
+                <div class="security-banner">
+                    <div class="security-content">
+                        <h2>Your privacy & security come first</h2>
+                        <p>Unlike public systems, Apex Bank ensures each customer has an isolated, private session. Only you can view your balance, edit your details, and authorize funds movement.</p>
+                        <div class="security-checklist">
+                            <div class="check-item">✔️ Private individual account dashboards</div>
+                            <div class="check-item">✔️ Mandatory PIN authorization on withdrawals</div>
+                            <div class="check-item">✔️ Real-time encrypted database synchronization</div>
+                        </div>
+                    </div>
+                    <div class="security-action">
+                        <button class="btn btn-glow" id="security-open-btn">Create Your Account Today</button>
+                    </div>
                 </div>
-                <p class="subtitle">Search, sort, edit details, or view account statements.</p>
-                <!-- Search and Sort Controls -->
-                <div class="filter-bar">
-                    <input type="text" id="search-input" class="search-box"
-                        placeholder="🔍 Search name, email, or account #...">
-                    <select id="sort-select" class="sort-box">
-                        <option value="newest">Sort: Newest First</option>
-                        <option value="balance-high">Sort: Balance (High to Low)</option>
-                        <option value="balance-low">Sort: Balance (Low to High)</option>
-                        <option value="name">Sort: Name (A-Z)</option>
-                    </select>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW 2: PRIVATE CUSTOMER DASHBOARD (Logged In) -->
+    <div id="dashboard-view" class="view-section hidden">
+        <main class="dashboard-container">
+            <!-- Greeting & Quick Stats -->
+            <section class="dashboard-header-card">
+                <div class="greeting-wrap">
+                    <span class="greeting-subtitle">CUSTOMER ACCOUNT PORTAL</span>
+                    <h2 class="greeting-title" id="dash-greeting">Welcome, Customer!</h2>
+                    <div class="account-pill">
+                        <span>Account Number:</span>
+                        <strong id="dash-acc-number">ACC-0000000000</strong>
+                        <button class="btn-copy" id="copy-acc-btn" title="Copy Account Number">📋 Copy</button>
+                    </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Account #</th>
-                                <th>Holder</th>
-                                <th>Balance (₹)</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="accounts-table-body">
-                            <tr>
-                                <td colspan="4" class="text-center text-muted">Loading accounts...</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <!-- Personal Balance Card -->
+                <div class="balance-card">
+                    <div class="balance-card-header">
+                        <span class="balance-card-label">AVAILABLE BALANCE</span>
+                        <button class="btn-toggle-eye" id="toggle-balance-btn" title="Hide/Show Balance">👁️</button>
+                    </div>
+                    <div class="balance-amount-wrap">
+                        <h1 class="balance-amount" id="dash-balance">₹0.00</h1>
+                    </div>
+                    <div class="balance-card-footer">
+                        <span class="holder-email" id="dash-email">user@example.com</span>
+                        <span class="active-badge">● Active & Protected</span>
+                    </div>
                 </div>
             </section>
-        </div>
-        <!-- 1. Statement / History Modal -->
-        <div id="statement-modal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 id="modal-title">Account Statement</h3>
-                    <button id="close-modal-btn" class="close-btn">&times;</button>
+
+            <!-- Quick Action Tabs & Forms -->
+            <section class="dashboard-actions-grid">
+                <!-- Action Navigation Tabs -->
+                <div class="action-card">
+                    <div class="action-card-header">
+                        <h3>Perform Banking Operation</h3>
+                        <div class="tab-switcher">
+                            <button class="tab-btn active" data-tab="tab-deposit">Deposit</button>
+                            <button class="tab-btn" data-tab="tab-withdraw">Withdraw</button>
+                            <button class="tab-btn" data-tab="tab-transfer">Transfer</button>
+                            <button class="tab-btn" data-tab="tab-settings">Settings</button>
+                        </div>
+                    </div>
+
+                    <!-- TAB 1: DEPOSIT -->
+                    <div class="tab-pane active" id="tab-deposit">
+                        <form id="dash-deposit-form" class="bank-form">
+                            <p class="form-hint">Deposit money into your account securely.</p>
+                            <div class="form-group">
+                                <label for="deposit-amount">Deposit Amount (₹) *</label>
+                                <input type="number" id="deposit-amount" class="form-input" placeholder="e.g. 5000" min="1" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="deposit-desc">Description / Reference Note</label>
+                                <input type="text" id="deposit-desc" class="form-input" placeholder="e.g. Salary, UPI Deposit, Savings">
+                            </div>
+                            <div class="form-group">
+                                <label for="deposit-pin">Enter 4-Digit Security PIN *</label>
+                                <input type="password" id="deposit-pin" class="form-input" maxlength="4" placeholder="••••" required>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block">Authorize & Deposit</button>
+                        </form>
+                    </div>
+
+                    <!-- TAB 2: WITHDRAW -->
+                    <div class="tab-pane" id="tab-withdraw">
+                        <form id="dash-withdraw-form" class="bank-form">
+                            <p class="form-hint">Withdraw cash or pay bills from your available balance.</p>
+                            <div class="form-group">
+                                <label for="withdraw-amount">Withdrawal Amount (₹) *</label>
+                                <input type="number" id="withdraw-amount" class="form-input" placeholder="e.g. 1000" min="1" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="withdraw-desc">Description / Reference Note</label>
+                                <input type="text" id="withdraw-desc" class="form-input" placeholder="e.g. ATM Cash, Utility Bill">
+                            </div>
+                            <div class="form-group">
+                                <label for="withdraw-pin">Enter 4-Digit Security PIN *</label>
+                                <input type="password" id="withdraw-pin" class="form-input" maxlength="4" placeholder="••••" required>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-block">Authorize & Withdraw</button>
+                        </form>
+                    </div>
+
+                    <!-- TAB 3: TRANSFER -->
+                    <div class="tab-pane" id="tab-transfer">
+                        <form id="dash-transfer-form" class="bank-form">
+                            <p class="form-hint">Instantly send money to another Apex Bank account.</p>
+                            <div class="form-group">
+                                <label for="transfer-recipient">Recipient Account Number *</label>
+                                <input type="text" id="transfer-recipient" class="form-input" placeholder="e.g. ACC-1234567890" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="transfer-amount">Transfer Amount (₹) *</label>
+                                <input type="number" id="transfer-amount" class="form-input" placeholder="e.g. 2500" min="1" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="transfer-desc">Transfer Note</label>
+                                <input type="text" id="transfer-desc" class="form-input" placeholder="e.g. Rent share, Dinner, Payment">
+                            </div>
+                            <div class="form-group">
+                                <label for="transfer-pin">Enter 4-Digit Security PIN *</label>
+                                <input type="password" id="transfer-pin" class="form-input" maxlength="4" placeholder="••••" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Authorize & Send Money</button>
+                        </form>
+                    </div>
+
+                    <!-- TAB 4: SETTINGS / PROFILE -->
+                    <div class="tab-pane" id="tab-settings">
+                        <form id="dash-profile-form" class="bank-form">
+                            <p class="form-hint">Update your account name, email, or change your 4-digit PIN.</p>
+                            <div class="form-group">
+                                <label for="edit-holder-name">Full Name *</label>
+                                <input type="text" id="edit-holder-name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-email">Email Address *</label>
+                                <input type="email" id="edit-email" class="form-input" required>
+                            </div>
+                            <div class="form-divider"><span>CHANGE PIN (OPTIONAL)</span></div>
+                            <div class="form-group">
+                                <label for="edit-new-pin">New 4-Digit PIN (leave blank to keep current)</label>
+                                <input type="password" id="edit-new-pin" class="form-input" maxlength="4" placeholder="New 4-digit PIN">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-current-pin">Current 4-Digit Security PIN (Required to save changes) *</label>
+                                <input type="password" id="edit-current-pin" class="form-input" maxlength="4" placeholder="Current PIN" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p id="modal-account-info" class="modal-sub"></p>
+
+                <!-- Account Statement / Passbook Section -->
+                <div class="statement-card">
+                    <div class="statement-header">
+                        <div>
+                            <h3>My Passbook & Transactions</h3>
+                            <p class="sub-text">Live record of all deposits, withdrawals, and transfers</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm" id="refresh-statement-btn">🔄 Refresh</button>
+                    </div>
+
                     <div class="table-responsive">
-                        <table class="data-table">
+                        <table class="statement-table">
                             <thead>
                                 <tr>
                                     <th>Date & Time</th>
                                     <th>Type</th>
                                     <th>Description</th>
-                                    <th>Amount (₹)</th>
+                                    <th class="text-right">Amount (₹)</th>
                                 </tr>
                             </thead>
-                            <tbody id="statement-table-body">
+                            <tbody id="my-transactions-body">
                                 <tr>
-                                    <td colspan="4" class="text-center text-muted">Loading transactions...</td>
+                                    <td colspan="4" class="text-center text-muted">Loading your transactions...</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL: LOGIN / SIGN IN -->
+    <div id="login-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <span class="modal-icon">🔐</span>
+                    <h3>Sign In to Online Banking</h3>
+                </div>
+                <button class="btn-close-modal" id="close-login-btn">&times;</button>
+            </div>
+            <p class="modal-sub">Enter your Account Number or Email and 4-digit PIN to access your account.</p>
+            <form id="login-form" class="modal-form">
+                <div class="form-group">
+                    <label for="login-identifier">Account Number or Email *</label>
+                    <input type="text" id="login-identifier" class="form-input" placeholder="e.g. ACC-1877171544 or your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-pin">4-Digit Security PIN *</label>
+                    <input type="password" id="login-pin" class="form-input" maxlength="4" placeholder="••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+            <div class="modal-footer">
+                <span>Don't have an account?</span>
+                <a href="#" id="switch-to-register">Open a free account</a>
             </div>
         </div>
-        <!-- 2. Edit Account Details & PIN Verification Modal -->
-        <div id="edit-modal" class="modal hidden">
-            <div class="modal-content modal-small">
-                <div class="modal-header">
-                    <h3>Edit Account & PIN</h3>
-                    <button id="close-edit-modal-btn" class="close-btn">&times;</button>
+    </div>
+
+    <!-- MODAL: OPEN NEW ACCOUNT -->
+    <div id="register-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <span class="modal-icon">✨</span>
+                    <h3>Open New Bank Account</h3>
                 </div>
-                <div class="modal-body">
-                    <form id="edit-account-form">
-                        <input type="hidden" id="edit-account-number">
-                        <div class="form-group">
-                            <label>Account Number</label>
-                            <input type="text" id="edit-account-number-display" disabled class="disabled-input">
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-holder-name">Full Name *</label>
-                            <input type="text" id="edit-holder-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-email">Email Address *</label>
-                            <input type="email" id="edit-email" required>
-                        </div>
-                        <hr style="margin: 1.2rem 0; border: none; border-top: 1px solid #e2e8f0;">
-                        <!-- Mandatory Old PIN verification -->
-                        <div class="form-group">
-                            <label for="edit-current-pin" style="color: #c53030; font-weight: 600;">Current 4-Digit PIN
-                                * (Required to save)</label>
-                            <input type="password" id="edit-current-pin" placeholder="Enter current PIN" maxlength="4"
-                                pattern="\d{4}" required>
-                        </div>
-                        <!-- Optional New PIN change -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="edit-new-pin">New 4-Digit PIN (Optional)</label>
-                                <input type="password" id="edit-new-pin" placeholder="New PIN" maxlength="4">
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-confirm-pin">Confirm New PIN</label>
-                                <input type="password" id="edit-confirm-pin" placeholder="Repeat new PIN" maxlength="4">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Verify & Save Changes</button>
-                    </form>
+                <button class="btn-close-modal" id="close-register-btn">&times;</button>
+            </div>
+            <p class="modal-sub">Create your digital account in under 2 minutes.</p>
+            <form id="register-form" class="modal-form">
+                <div class="form-group">
+                    <label for="reg-holder-name">Full Name *</label>
+                    <input type="text" id="reg-holder-name" class="form-input" placeholder="e.g. Rahul Sharma" required>
                 </div>
+                <div class="form-group">
+                    <label for="reg-email">Email Address *</label>
+                    <input type="email" id="reg-email" class="form-input" placeholder="e.g. rahul@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-pin">Choose 4-Digit Security PIN *</label>
+                    <input type="password" id="reg-pin" class="form-input" maxlength="4" placeholder="4 digits (e.g. 1234)" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-deposit">Initial Opening Deposit (₹)</label>
+                    <input type="number" id="reg-deposit" class="form-input" value="5000.00" min="0" step="0.01">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Create & Activate Account</button>
+            </form>
+            <div class="modal-footer">
+                <span>Already have an account?</span>
+                <a href="#" id="switch-to-login">Sign in</a>
             </div>
         </div>
-    </main>
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Apex Bank Management System. Built with Node.js, Express & SQLite.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <span class="logo-icon">🏛️</span>
+                    <span class="logo-title">Apex Bank</span>
+                </div>
+                <p>Enterprise-grade digital banking. Powered by Node.js & MongoDB Atlas.</p>
+            </div>
+            <div class="footer-actions">
+                <button class="btn-clear-data" id="clear-data-btn" title="Reset All Bank Data (Development Utility)">
+                    🗑️ Reset / Clear All Database Records
+                </button>
+            </div>
         </div>
     </footer>
-    <!-- JS script -->
+
+    <!-- Scripts -->
     <script src="js/main.js"></script>
 </body>
+
+</html>
