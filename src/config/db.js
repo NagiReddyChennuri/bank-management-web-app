@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
+const dns = require('dns');
 require('dotenv').config();
+
+// Ensure reliable SRV DNS resolution on Windows / local ISP networks
+try {
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (dnsErr) {
+    // If setting custom DNS servers is restricted in certain cloud environments, fallback to default
+}
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -24,7 +32,7 @@ async function connectDB() {
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
-            serverSelectionTimeoutMS: 8000,
+            serverSelectionTimeoutMS: 10000,
         };
 
         cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
