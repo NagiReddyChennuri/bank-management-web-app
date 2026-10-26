@@ -11,7 +11,20 @@ if (!process.env.VERCEL) {
     }
 }
 
-const MONGODB_URI = process.env.MONGODB_URI;
+let rawUri = process.env.MONGODB_URI || '';
+if (rawUri) {
+    rawUri = rawUri.trim();
+    // Strip accidental prefix like "MONGODB_URI=" if pasted into Vercel value field
+    if (rawUri.startsWith('MONGODB_URI=')) {
+        rawUri = rawUri.replace(/^MONGODB_URI=\s*/, '');
+    }
+    // Strip accidental wrapping quotes (single or double)
+    if ((rawUri.startsWith('"') && rawUri.endsWith('"')) ||
+        (rawUri.startsWith("'") && rawUri.endsWith("'"))) {
+        rawUri = rawUri.slice(1, -1).trim();
+    }
+}
+const MONGODB_URI = rawUri;
 
 /**
  * Global cache for Mongoose connection in serverless (Vercel) environments.
