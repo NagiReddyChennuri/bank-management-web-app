@@ -2,18 +2,16 @@ const mongoose = require('mongoose');
 const dns = require('dns');
 require('dotenv').config();
 
-// Ensure reliable SRV DNS resolution on Windows / local ISP networks
-try {
-    dns.setServers(['8.8.8.8', '1.1.1.1']);
-} catch (dnsErr) {
-    // If setting custom DNS servers is restricted in certain cloud environments, fallback to default
+// Ensure reliable SRV DNS resolution on local Windows / ISP networks (skip in Vercel/Lambda cloud)
+if (!process.env.VERCEL) {
+    try {
+        dns.setServers(['8.8.8.8', '1.1.1.1']);
+    } catch (dnsErr) {
+        // Fallback to default system DNS
+    }
 }
 
 const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-    console.warn('⚠️ MONGODB_URI is not defined in environment variables or .env');
-}
 
 /**
  * Global cache for Mongoose connection in serverless (Vercel) environments.
@@ -25,6 +23,10 @@ if (!cached) {
 }
 
 async function connectDB() {
+    if (!MONGODB_URI) {
+        throw new Error('MONGODB_URI environment variable is missing. Please add MONGODB_URI in Vercel Settings -> Environment Variables.');
+    }
+
     if (cached.conn) {
         return cached.conn;
     }

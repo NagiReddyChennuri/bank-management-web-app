@@ -26,7 +26,8 @@ app.use(async (req, res, next) => {
     } catch (err) {
         console.error('Database connection failed in request middleware:', err.message);
         res.status(503).json({
-            error: 'Database connection failed. Please check your MongoDB configuration in .env or Vercel settings.'
+            error: 'Database connection failed. Please check your MongoDB configuration in .env or Vercel settings.',
+            details: err.message
         });
     }
 });
